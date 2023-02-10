@@ -10,7 +10,7 @@ def game_field():
 
 def symbols_take(player_symbol):
  while True:
-        x = input('Choose number to place you symbol: ' + player_symbol )
+        x = input('Choose number to place you symbol: ' + ' ' + player_symbol )
         if not (x in '123456789'):
             print('You chose something wrong\nTry again')
             continue
