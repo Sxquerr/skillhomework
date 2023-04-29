@@ -4,7 +4,11 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Author(models.Model):
-    name = models.ForeignKey(User, on_delete=models.CASCADE)
+    Users = models.OneToOneField (User, on_delete=models.CASCADE)
+    username = models.CharField(max_length=255, default='Error in username')
+    rating = models.IntegerField(default=0)
+
+
     
 
 class Category(models.Model):
@@ -21,19 +25,21 @@ POSITIONS = [
 
 
 class Post(models.Model):
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    authors = models.ForeignKey(Author, on_delete=models.CASCADE)
     news = models.CharField(max_length=8, choices= POSITIONS, default=news)
     time = models.DateTimeField(auto_now_add = True)
     theme = models.CharField(max_length=255, default='Статья без заголовка!')
     text = models.TextField(default='Ничего не указано')
     rating = models.IntegerField(default=0)
-    Posts = models.ManyToManyField(Category, through='PostCategory')
+    cats = models.ManyToManyField(Category, through='PostCategory')
 
     def like(self):
-        self.rating + 1
+        self.rating = self.rating + 1
+        self.save()
 
     def dislike(self):
-        self.rating - 1
+        self.rating= self.rating - 1
+        self.save()
 
     def preview(self):
         print(self.text[0:123], '...')
@@ -50,8 +56,10 @@ class Comment(models.Model):
     rating = models.IntegerField(default=0)
     
     def like(self):
-        self.rating + 1
+        self.rating = self.rating + 1
+        self.save()
 
     def dislike(self):
-        self.rating - 1
+        self.rating = self.rating - 1
+        self.save()
      
