@@ -9,6 +9,10 @@ class Author(models.Model):
     rating = models.IntegerField(default=0)
 
 
+    def __str__(self):
+        return f'{self.username}'
+
+
     
 
 class Category(models.Model):
@@ -43,6 +47,9 @@ class Post(models.Model):
 
     def preview(self):
         print(self.text[0:123], '...')
+    
+    def __str__(self):
+        return f'{self.theme.title()}: {self.text[:20]}...'
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
